@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block titulo %}Notas{% endblock %}
+
+{% block contenido %}
+
+<h1>Notas</h1>
+
+<div class="card">
+    <form action="/guardar_nota" method="POST">
+
+        <select name="estudiante_id" required>
+            <option value="">Seleccione un estudiante</option>
+            {% for estudiante in estudiantes %}
+                <option value="{{ estudiante[0] }}">
+                    {{ estudiante[1] }} - {{ estudiante[2] }} - Curso {{ estudiante[3] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="evaluacion_id" required>
+            <option value="">Seleccione una evaluación</option>
+            {% for evaluacion in evaluaciones %}
+                <option value="{{ evaluacion[0] }}">
+                    {{ evaluacion[2] }} - Curso {{ evaluacion[3] }} - {{ evaluacion[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="number" step="0.01" name="nota" placeholder="Nota sobre 10" required>
+
+        <textarea name="observacion" placeholder="Observación del profesor"></textarea>
+
+        <button type="submit">Guardar nota</button>
+
+    </form>
+</div>
+
+<table class="tabla">
+    <tr>
+        <th>ID</th>
+        <th>Estudiante</th>
+        <th>Materia</th>
+        <th>Curso</th>
+        <th>Evaluación</th>
+        <th>Nota</th>
+        <th>Observación</th>
+        <th>Acción</th>
+    </tr>
+
+    {% for nota in notas %}
+    <tr>
+        <td>{{ nota[0] }}</td>
+        <td>{{ nota[1] }}</td>
+        <td>{{ nota[2] }}</td>
+        <td>Curso {{ nota[3] }}</td>
+        <td>{{ nota[4] }}</td>
+        <td>{{ nota[5] }}</td>
+        <td>{{ nota[6] }}</td>
+        <td>
+            <a class="btn-editar" href="/editar_nota/{{ nota[0] }}">
+                <img src="{{ url_for('static', filename='img/edit.png') }}" class="btn-icon">
+                Editar</a>
+            <a class="btn-eliminar" href="/eliminar_nota/{{ nota[0] }}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+    

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="login-page">
+
+<div class="login-wrapper">
+
+    <div class="login-logo">
+
+<div class="logo-icon">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+</div>
+
+        <h1>SISTEMA ACADÉMICO</h1>
+
+        <p>Gestión de Calificaciones</p>
+
+    </div>
+
+    <div class="login-card">
+
+        <h2>Iniciar sesión</h2>
+        
+        {% if mensaje %}
+    <div class="error-login">
+        {{ mensaje }}
+    </div>
+{% endif %}
+
+        <form method="POST" action="/">
+
+            <label>Usuario</label>
+            <input
+                type="text"
+                name="usuario"
+                placeholder="Ingrese su usuario"
+                required
+            >
+
+            <label>Contraseña</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Ingrese su contraseña"
+                required
+            >
+
+            <button type="submit">
+                Iniciar sesión
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

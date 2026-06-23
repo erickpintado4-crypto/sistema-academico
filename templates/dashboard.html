@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block contenido %}
+
+<div class="dashboard-header">
+    <h1>
+    <img src="{{ url_for('static', filename='img/dashboard.png') }}" class="titulo-icon">
+    Dashboard Académico
+</h1>
+    <p>Resumen general del sistema de gestión de calificaciones.</p>
+    <div class="card">
+    <form action="/dashboard" method="GET">
+
+        <select name="materia">
+            <option value="">Todas las materias</option>
+            {% for m in materias %}
+                <option value="{{ m[0] }}" {% if materia == m[0] %}selected{% endif %}>
+                    {{ m[0] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="curso_id">
+            <option value="">Todos los cursos</option>
+            {% for curso in cursos %}
+                <option value="{{ curso[0] }}" {% if curso_id == curso[0]|string %}selected{% endif %}>
+                    Curso {{ curso[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Actualizar dashboard</button>
+
+    </form>
+</div>
+</div>
+
+<div class="dashboard-grid">
+    
+
+    <div class="dash-card azul">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/students.png') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ total_estudiantes }}</h2>
+            <p>Total estudiantes</p>
+        </div>
+    </div>
+
+    <div class="dash-card verde">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/students.png') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ activos }}</h2>
+            <p>Estudiantes activos</p>
+        </div>
+    </div>
+
+    <div class="dash-card naranja">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/warning.webp') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ bajas }}</h2>
+            <p>Dados de baja</p>
+        </div>
+    </div>
+
+    <div class="dash-card morado">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/evaluations.png') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ total_evaluaciones }}</h2>
+            <p>Evaluaciones</p>
+        </div>
+    </div>
+
+    <div class="dash-card celeste">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/notes.png') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ total_notas }}</h2>
+            <p>Notas registradas</p>
+        </div>
+    </div>
+
+    <div class="dash-card azul">
+        <div class="icono">
+            <img src="{{ url_for('static', filename='img/star.png') }}" class="dash-icon">
+        </div>
+        <div>
+            <h2>{{ promedio_general }}</h2>
+            <p>Promedio general</p>
+        </div>
+    </div>
+
+</div>
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+        <h2>Estado del curso</h2>
+
+        <div class="chart-container">
+            <canvas id="estadoCursoChart"></canvas>
+        </div>
+
+        <div class="chart-info">
+            <p><span class="dot verde-dot"></span> Aprobados: <strong>{{ aprobados }}</strong></p>
+            <p><span class="dot rojo-dot"></span> Reprobados: <strong>{{ reprobados }}</strong></p>
+        </div>
+    </div>
+<div class="dashboard-panel">
+
+    <h2>Resumen del sistema</h2>
+
+    <p>
+        El sistema permite registrar estudiantes, evaluaciones,
+        notas, calcular promedios, generar reportes detallados y
+        exportar información a Excel.
+    </p>
+
+    <div class="info-dashboard">
+        La información mostrada se actualiza según los datos
+        registrados en el sistema.
+    </div>
+
+</div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const aprobados = Number("{{ aprobados }}");
+    const reprobados = Number("{{ reprobados }}");
+
+    const ctx = document.getElementById("estadoCursoChart");
+
+    if (ctx) {
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: ["Aprobados", "Reprobados"],
+                datasets: [{
+                    data: [aprobados, reprobados],
+                    backgroundColor: ["#16a34a", "#dc2626"],
+                    borderColor: "#ffffff",
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}

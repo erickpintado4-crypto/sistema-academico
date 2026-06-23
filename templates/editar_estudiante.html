@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Estudiante{% endblock %}
+
+{% block contenido %}
+
+<h1>Editar Estudiante</h1>
+
+<div class="card">
+    <form method="POST">
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ estudiante[1] }}" required>
+
+        <label>Materia</label>
+        <select name="carrera" required>
+            {% for materia in materias %}
+                <option value="{{ materia }}" {% if estudiante[2] == materia %}selected{% endif %}>
+                    {{ materia }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Curso</label>
+        <select name="curso_id" required>
+            {% for curso in cursos %}
+                <option value="{{ curso[0] }}" {% if estudiante[4] == curso[0] %}selected{% endif %}>
+                    {{ curso[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Estado</label>
+        <select name="estado" required>
+            <option value="Activo" {% if estudiante[3] == "Activo" %}selected{% endif %}>Activo</option>
+            <option value="Inactivo" {% if estudiante[3] == "Inactivo" %}selected{% endif %}>Inactivo</option>
+            <option value="Dado de baja" {% if estudiante[3] == "Dado de baja" %}selected{% endif %}>Dado de baja</option>
+        </select>
+
+        <button type="submit">Guardar cambios</button>
+
+    </form>
+</div>
+
+{% endblock %}

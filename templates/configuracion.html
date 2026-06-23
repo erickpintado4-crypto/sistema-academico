@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block titulo %}Configuración{% endblock %}
+
+{% block contenido %}
+
+<h1>Configuración de la Cuenta</h1>
+
+<div class="card configuracion-grid">
+
+    <div class="config-panel">
+
+        <h2>Información del usuario</h2>
+
+        <label>Usuario</label>
+        <input type="text" value="docente" readonly>
+
+        <label>Nombre completo</label>
+        <input type="text" value="Docente Principal" readonly>
+
+        <label>Correo electrónico</label>
+        <input type="email" value="docente@institucion.edu" readonly>
+
+    </div>
+
+    <div class="config-panel">
+
+        <h2>Cambiar contraseña</h2>
+
+        <form action="/configuracion" method="POST">
+
+            <label>Contraseña actual</label>
+            <input type="password" name="actual">
+
+            <label>Nueva contraseña</label>
+            <input type="password" name="nueva">
+
+            <label>Confirmar nueva contraseña</label>
+            <input type="password" name="confirmar">
+
+            <button type="submit">
+                Guardar cambios
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

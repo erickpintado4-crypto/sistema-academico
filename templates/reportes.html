@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block titulo %}Reporte de Calificaciones{% endblock %}
+
+{% block contenido %}
+
+<h1>Reporte de Calificaciones</h1>
+
+<div class="card">
+
+<div class="card">
+
+    <form action="/reportes" method="GET">
+
+        <select name="materia">
+            <option value="">Todas las materias</option>
+
+            {% for m in materias %}
+                <option value="{{ m[0] }}"
+                    {% if materia == m[0] %}selected{% endif %}>
+                    {{ m[0] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="curso_id">
+            <option value="">Todos los cursos</option>
+
+            {% for curso in cursos %}
+                <option value="{{ curso[0] }}"
+                    {% if curso_id == curso[0]|string %}selected{% endif %}>
+                    Curso {{ curso[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">
+            Filtrar reporte
+        </button>
+
+    </form>
+
+</div>
+
+<table class="tabla">
+
+    <tr>
+        <th>ID</th>
+        <th>Estudiante</th>
+        <th>Materia</th>
+        <th>Curso</th>
+        <th>Estado</th>
+
+        {% for evaluacion in evaluaciones %}
+            <th>
+                {{ evaluacion[1] }}
+                <br>
+                <small>{{ evaluacion[2] }}%</small>
+            </th>
+        {% endfor %}
+
+        <th>Promedio Final</th>
+        <th>Resultado</th>
+        <th>Observación</th>
+    </tr>
+
+    {% for fila in reporte_final %}
+    <tr>
+
+        <td>{{ fila.id }}</td>
+        <td>{{ fila.nombre }}</td>
+        <td>{{ fila.carrera }}</td>
+        <td>{{ fila.curso }}</td>
+        <td>{{ fila.estado }}</td>
+
+        {% for nota in fila.notas %}
+            <td>{{ nota }}</td>
+        {% endfor %}
+
+        <td>
+            <strong>{{ fila.promedio }}</strong>
+        </td>
+
+        <td>{{ fila.resultado }}</td>
+
+        <td>{{ fila.observacion }}</td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+
+<br>
+
+<a href="/exportar_excel" class="btn-exportar">
+    📊 Exportar reporte detallado a Excel
+</a>
+
+<a href="/enviar_reporte" class="btn-correo">
+    📧 Preparar correo
+</a>
+
+{% endblock %}

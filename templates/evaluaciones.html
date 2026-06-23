@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titulo %}Evaluaciones{% endblock %}
+
+{% block contenido %}
+
+<h1>Evaluaciones</h1>
+
+<div class="card">
+    <form action="/agregar_evaluacion" method="POST">
+
+        <select name="materia_id" required>
+            <option value="">Seleccione una materia</option>
+            {% for materia in materias %}
+                <option value="{{ materia[0] }}">{{ materia[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="curso_id" required>
+            <option value="">Seleccione un curso</option>
+            {% for curso in cursos %}
+                <option value="{{ curso[0] }}">Curso {{ curso[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="nombre" placeholder="Nombre de la evaluación" required>
+        <input type="number" step="0.01" name="ponderacion" placeholder="Ponderación %" required>
+
+        <button type="submit">Agregar evaluación</button>
+    </form>
+
+    <p><strong>Total de ponderaciones:</strong> {{ total }}%</p>
+</div>
+
+<table class="tabla">
+    <tr>
+        <th>ID</th>
+        <th>Materia</th>
+        <th>Curso</th>
+        <th>Evaluación</th>
+        <th>Ponderación</th>
+        <th>Acción</th>
+    </tr>
+
+    {% for evaluacion in evaluaciones %}
+    <tr>
+        <td>{{ evaluacion[0] }}</td>
+        <td>{{ evaluacion[3] }}</td>
+        <td>Curso {{ evaluacion[4] }}</td>
+        <td>{{ evaluacion[1] }}</td>
+        <td>{{ evaluacion[2] }}%</td>
+        <td>
+            <a class="btn-eliminar" href="/eliminar_evaluacion/{{ evaluacion[0] }}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

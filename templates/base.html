@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+
+        <h2>Sistema Académico</h2>
+
+<a href="/dashboard">
+    <img src="{{ url_for('static', filename='img/dashboard.png') }}" class="menu-icon">
+    Dashboard
+</a>
+
+<a href="/estudiantes">
+    <img src="{{ url_for('static', filename='img/students.png') }}" class="menu-icon">
+    Estudiantes
+</a>
+
+<a href="/evaluaciones">
+    <img src="{{ url_for('static', filename='img/evaluations.png') }}" class="menu-icon">
+    Evaluaciones
+</a>
+
+<a href="/notas">
+    <img src="{{ url_for('static', filename='img/notes.png') }}" class="menu-icon">
+    Notas
+</a>
+
+<a href="/reportes">
+    <img src="{{ url_for('static', filename='img/reports.png') }}" class="menu-icon">
+    Reportes
+</a>
+
+<a href="/configuracion">
+    <img src="{{ url_for('static', filename='img/settings.png') }}" class="menu-icon">
+    Configuración
+</a>
+
+<a href="/logout" class="logout-btn">
+    <img src="{{ url_for('static', filename='img/logout.png') }}" class="menu-icon">
+    Cerrar sesión
+</a>
+
+    </div>
+
+    <div class="main-content">
+
+        {% block contenido %}
+        {% endblock %}
+
+    </div>
+</body>
+</html>

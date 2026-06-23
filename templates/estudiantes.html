@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block titulo %}Estudiantes{% endblock %}
+
+{% block contenido %}
+
+<h1>Estudiantes</h1>
+
+<div class="card">
+    <form action="/estudiantes" method="GET">
+        <input
+            type="text"
+            name="busqueda"
+            placeholder="Buscar estudiante"
+            value="{{ busqueda }}"
+        >
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div class="card">
+    <form action="/agregar_estudiante" method="POST">
+
+        <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre del estudiante"
+            required
+        >
+
+        <select name="carrera" required>
+            <option value="">Seleccione una materia</option>
+
+            <option value="Ciencias Políticas Primero">
+                Ciencias Políticas Primero
+            </option>
+
+            <option value="Derecho Societario">
+                Derecho Societario
+            </option>
+
+            <option value="Derecho Minero">
+                Derecho Minero
+            </option>
+
+            <option value="Derecho Mercantil">
+                Derecho Mercantil
+            </option>
+        </select>
+
+        <select name="curso_id" required>
+            <option value="">Seleccione un curso</option>
+
+            {% for curso in cursos %}
+                <option value="{{ curso[0] }}">
+                    Curso {{ curso[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="estado" required>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
+
+        <button type="submit">
+            Agregar estudiante
+        </button>
+
+    </form>
+</div>
+
+<table class="tabla">
+
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Materia</th>
+        <th>Curso</th>
+        <th>Estado</th>
+        <th>Acción</th>
+    </tr>
+
+    {% for estudiante in estudiantes %}
+    <tr>
+
+        <td>{{ estudiante[0] }}</td>
+        <td>{{ estudiante[1] }}</td>
+        <td>{{ estudiante[2] }}</td>
+        <td>{{ estudiante[4] }}</td>
+        <td>{{ estudiante[3] }}</td>
+
+        <td>
+
+            <a class="btn-editar" href="/editar_estudiante/{{ estudiante[0] }}">
+    <img src="{{ url_for('static', filename='img/edit.png') }}" class="btn-icon">
+    Editar
+</a>
+
+            {% if estudiante[3] == "Activo" %}
+                <a
+                    class="btn-baja"
+                    href="/dar_baja_estudiante/{{ estudiante[0] }}"
+                >
+                    Dar de baja
+                </a>
+            {% else %}
+                <a
+                    class="btn-reactivar"
+                    href="/reactivar_estudiante/{{ estudiante[0] }}"
+                >
+                    Reactivar
+                </a>
+            {% endif %}
+
+        </td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}
